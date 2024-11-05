@@ -1,36 +1,97 @@
+## Shorten Links
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# ClipTo - Acortador de URL
 
-First, run the development server:
+![ClipTo Logo](https://link-a-tu-logo.com/logo.png) <!-- Asegúrate de reemplazar con la URL de tu logo -->
+
+## Descripción
+
+ClipTo es un acortador de URL que permite a los usuarios crear enlaces cortos y personalizados a partir de URL largas. Con una interfaz intuitiva y características adicionales como estadísticas de uso, gestión de enlaces y opciones de edición, ClipTo ofrece una solución eficiente para compartir enlaces en redes sociales, correos electrónicos y más.
+
+## Funcionalidades
+
+- **Acortador de URL**: Convierte URL largas en enlaces cortos y fáciles de compartir.
+- **Gestión de enlaces**: Visualiza, edita y elimina tus enlaces acortados.
+- **Estadísticas**: Accede a datos sobre el uso de tus enlaces, incluyendo clics y otras métricas.
+- **Interfaz intuitiva**: Diseñada con React y Tailwind CSS para una experiencia de usuario fluida.
+- **Responsive**: Compatible con dispositivos móviles y de escritorio.
+
+## Tecnologías Utilizadas
+
+- **Frontend**: React, Next.js (App Router), Tailwind CSS
+- **Backend**: Node.js, MongoDB (MongoDB Atlas)
+- **API**: RESTful API para la gestión de enlaces
+- **Despliegue**: Vercel
+
+## Instalación
+
+Para comenzar a usar ClipTo en tu entorno local, sigue estos pasos:
+
+1. **Clona el repositorio**:
+   ```bash
+   git clone https://github.com/tu-usuario/ClipTo.git
+   cd ClipTo
+   ```
+2. **Instala las dependencias**:
+   ```bash
+   npm install
+   ```
+3. **Configura las variables de entorno: Crea los archivos en la raíz del proyecto y añade las siguientes variables**:
+   #### .env
+   ```bash
+    MONGODB_URI=<mongodb-uri>
+    DB_NAME=<db-name>
+   ```
+   #### .env.local
+   ```bash
+   NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
+   ```
+   #### .env.production
+   ```bash
+   NEXT_PUBLIC_API_BASE_URL=https://tu-dominio.com
+   ```
+4. **Inicia la aplicación**:
+   ```bash
+   npm run dev
+   ```
+5. **Abre tu navegador y ve a http://localhost:3000.**
+
+## Uso
+
+Para acortar una URL, simplemente ingresa la URL larga en el campo correspondiente y presiona el botón "Acortar". Luego podrás gestionar tus enlaces desde el dashboard, donde podrás editar, eliminar y ver las estadísticas de cada enlace.
+
+## Contribuciones
+
+¡Las contribuciones son bienvenidas! Si deseas mejorar ClipTo, sigue estos pasos:
+
+## Haz un fork del proyecto.
+
+Crea tu rama:
+Copiar código
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git checkout -b feature/nueva-funcionalidad
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Realiza tus cambios y haz commit:
+Copiar código
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+git commit -m 'Añadir nueva funcionalidad'
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Envía tu pull request.
 
-## Learn More
+## Licencia
 
-To learn more about Next.js, take a look at the following resources:
+Este proyecto está bajo la Licencia MIT. Para más detalles, consulta el archivo LICENSE.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contacto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Si tienes alguna pregunta o sugerencia, no dudes en contactarme a través de tu-email@example.com.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+¡Gracias por usar ClipTo! Esperamos que lo disfrutes.
