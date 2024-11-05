@@ -1,15 +1,10 @@
 import { connectToDatabase } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 
-if (!process.env.COLLECTION_NAME) {
-  throw new Error('Please add your Collection Name to .env');
-}
-const COLLECTION_NAME = process.env.COLLECTION_NAME
-
 // obtencion de link especifico
 export async function GET (request: Request, { params }: { params: Promise<{ shortId: string }> }) {
   const { shortId } = await params;
-  const db = await connectToDatabase();
+  const { db, COLLECTION_NAME } = await connectToDatabase();
 
   // Obtener todas las URLs con sus estadísticas
   const url = await db.collection(COLLECTION_NAME).findOne({ shortId })
@@ -28,7 +23,7 @@ export async function PUT (request: Request, { params }: { params: Promise<{ sho
   }
 
   try {
-    const db = await connectToDatabase();
+    const { db, COLLECTION_NAME } = await connectToDatabase();
     const urlsCollection = db.collection(COLLECTION_NAME);
 
     // Buscar y actualizar la URL con el shortId especificado

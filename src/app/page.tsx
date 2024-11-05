@@ -1,100 +1,110 @@
+'use client'
 import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 
-export default function Home() {
+export default function Home () {
+  const [inputUrl, setInputUrl] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
+
+  const handleShorten = async () => {
+    if (!inputUrl) return;
+    // Aquí iría la llamada a la API para acortar la URL.
+    // Simularemos una URL acortada temporalmente.
+    setShortUrl(`https://clipto.io/${Math.random().toString(36).substring(2, 8)}`);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen p-6 md:p-10">
+      {/* Encabezado */}
+      <header className="max-w-5xl mx-auto flex flex-col items-center text-center mb-10">
+        <h1 className="text-4xl md:text-6xl font-bold text-blue-600">
+          Bienvenido a ClipTo
+        </h1>
+        <p className="mt-4 text-lg md:text-xl text-gray-600">
+          Acorta, comparte y gestiona tus enlaces de manera eficiente
+        </p>
+        <Image src="/logo.png" alt="Logo de ClipTo" width={150} height={150} className="mt-4" />
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      {/* Sección de Acortador */}
+      <section className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 mb-10">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Prueba nuestro acortador</h2>
+        <div className="flex items-center space-x-2">
+          <input
+            type="url"
+            placeholder="Pega tu enlace largo aquí"
+            value={inputUrl}
+            onChange={(e) => setInputUrl(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-400 focus:ring focus:ring-blue-100 transition shadow-sm"
+          />
+          <button
+            onClick={handleShorten}
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Acortar
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+        {shortUrl && (
+          <p className="mt-4 text-green-600">
+            ¡Tu enlace corto es:{" "}
+            <a href={shortUrl} className="text-blue-600 underline">
+              {shortUrl}
+            </a>
+            !
+          </p>
+        )}
+      </section>
+
+      {/* Características */}
+      <section className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-semibold text-gray-700 text-center mb-6">¿Por qué elegir ClipTo?</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <h3 className="text-xl font-semibold text-blue-600">Enlaces cortos y personalizados</h3>
+            <p className="mt-2 text-gray-600">
+              Personaliza tus enlaces para que sean fáciles de recordar y compartir.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <h3 className="text-xl font-semibold text-blue-600">Estadísticas detalladas</h3>
+            <p className="mt-2 text-gray-600">
+              Monitorea los clics, dispositivos y ubicaciones de tus enlaces con un dashboard intuitivo.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md text-center">
+            <h3 className="text-xl font-semibold text-blue-600">Fácil integración</h3>
+            <p className="mt-2 text-gray-600">
+              Usa ClipTo en tus proyectos y aplicaciones con nuestra API REST.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Llamada a la Acción */}
+      <section className="max-w-5xl mx-auto mt-12 bg-white py-8 rounded-lg shadow-md text-center">
+        <h2 className="text-2xl md:text-3xl font-semibold text-blue-600 mb-4">
+          ¡Empieza a usar ClipTo hoy!
+        </h2>
+        <p className="text-gray-600 mb-6">
+          Únete a miles de usuarios que ya están compartiendo sus enlaces de una manera más práctica y profesional.
+        </p>
+        <Link href="/signup" className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg shadow-md hover:bg-blue-700 transition">
+          Regístrate gratis
+        </Link>
+      </section>
+
+      {/* Footer */}
+      <footer className="mt-16 text-center text-gray-500">
+        <p>© 2024 ClipTo - Todos los derechos reservados</p>
+        <nav className="flex justify-center space-x-4 mt-2">
+          <Link href="/terms" className="hover:underline">
+            Términos de servicio
+          </Link>
+          <Link href="/privacy" className="hover:underline">
+            Política de privacidad
+          </Link>
+        </nav>
       </footer>
     </div>
   );

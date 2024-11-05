@@ -2,14 +2,9 @@ import { NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
 import { connectToDatabase } from '@/lib/mongodb';
 
-if (!process.env.COLLECTION_NAME) {
-  throw new Error('Please add your Collection Name to .env');
-}
-const COLLECTION_NAME = process.env.COLLECTION_NAME
-
 // CREATE NEW
 export async function POST (req: Request) {
-  const db = await connectToDatabase();
+  const { db, COLLECTION_NAME } = await connectToDatabase();
   const { title, originalUrl } = await req.json();
 
   if (!originalUrl) {
@@ -34,7 +29,7 @@ export async function POST (req: Request) {
 
 // GET ALL
 export async function GET () {
-  const db = await connectToDatabase();
+  const { db, COLLECTION_NAME } = await connectToDatabase();
 
   // Obtener todas las URLs con sus estadísticas
   const shorts = await db.collection(COLLECTION_NAME).find({})

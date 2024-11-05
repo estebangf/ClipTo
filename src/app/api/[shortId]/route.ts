@@ -1,14 +1,9 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 
-if (!process.env.COLLECTION_NAME) {
-  throw new Error('Please add your Collection Name to .env');
-}
-const COLLECTION_NAME = process.env.COLLECTION_NAME
-
 export async function GET (req: Request, { params }: { params: { shortId: string } }) {
   const { shortId } = params;
-  const db = await connectToDatabase();
+  const { db, COLLECTION_NAME } = await connectToDatabase();
 
   const urlEntry = await db.collection(COLLECTION_NAME).findOne({ shortId });
 
@@ -44,7 +39,7 @@ export async function DELETE (request: Request, { params }: { params: { shortId:
   // }
 
   try {
-    const db = await connectToDatabase();
+    const { db, COLLECTION_NAME } = await connectToDatabase();
     // const result = await db.collection(COLLECTION_NAME).deleteOne({ _id: new ObjectId(shortId) });
     const result = await db.collection(COLLECTION_NAME).deleteOne({ shortId });
 
