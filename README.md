@@ -66,7 +66,7 @@ Para acortar una URL, simplemente ingresa la URL larga en el campo correspondien
 
 ¡Las contribuciones son bienvenidas! Si deseas mejorar ClipTo, sigue estos pasos:
 
-## Haz un fork del proyecto.
+<!-- ## Haz un fork del proyecto.
 
 Crea tu rama:
 Copiar código
@@ -82,7 +82,7 @@ Copiar código
 git commit -m 'Añadir nueva funcionalidad'
 ```
 
-Envía tu pull request.
+Envía tu pull request. -->
 
 ## Licencia
 
