@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/components/Button';
-import Short from '@/entities/Short';
+import ShortsActions from '@/lib/ShortsActions';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ type AddShortFormProps = object
 
 const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
   const router = useRouter();
-  const { shortId } = useParams();
+  const { shortId }: { shortId: string } = useParams();
   const isEditMode = shortId != 'new';
   const [formData, setFormData] = useState({ title: '', originalUrl: '' });
   const [loading, setLoading] = useState(isEditMode);
@@ -22,10 +22,9 @@ const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
     if (isEditMode) {
       // Aquí puedes hacer una solicitud para obtener los datos del enlace
       const fetchLinkData = async () => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/shorts/${shortId}`);
-        const data = await response.json();
+        const response = await ShortsActions.getShort(shortId)
         // console.log("DATA: ", data)
-        setFormData({ title: data.title, originalUrl: data.originalUrl });
+        setFormData({ title: response.title, originalUrl: response.originalUrl });
         setLoading(false)
       };
       fetchLinkData();
@@ -38,23 +37,14 @@ const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
     setSaving(true);
     setError('');
 
-    const method = isEditMode ? 'PUT' : 'POST';
-    const endpoint = isEditMode ? `/api/shorts/${shortId}` : '/api/shorts';
-
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${endpoint}`, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al acortar la URL. Por favor, intenta nuevamente.');
-      }
-
-      if (!isEditMode) {
-        const url: Short = await response.json();
-        router.replace(`${url.shortId}`)
+      if (isEditMode) {
+        const response = await ShortsActions.updateShort({ shortId, ...formData })
+        console.log(response)
+      } else {
+        const response = await ShortsActions.createShort({ ...formData })
+        if (response.insertedId)
+          router.replace(`${response.insertedId}`)
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

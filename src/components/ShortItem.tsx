@@ -6,6 +6,7 @@ import Short from "@/entities/Short";
 import Button from "./Button";
 import { useToast } from "@/contexts/ToastProvider";
 import { useRouter } from "next/navigation";
+import ShortsActions from "@/lib/ShortsActions";
 
 type ShortItemProps = {
 
@@ -60,11 +61,9 @@ const ShortItem: React.FC<ShortItemProps> = ({
     setDeleting(true)
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${shortId}`, {
-        method: 'DELETE',
-      });
+      const response = await ShortsActions.deleteShort(shortId)
 
-      if (response.ok) {
+      if (response) {
         router.refresh(); // Recarga la página y actualiza los datos
         showToast('URL eliminada con éxito');
         // Aquí deberías actualizar el estado o recargar la lista de URLs después de eliminarla
@@ -74,9 +73,8 @@ const ShortItem: React.FC<ShortItemProps> = ({
     } catch (error) {
       console.error("Error al eliminar la URL:", error);
       showToast('Error al eliminar la URL');
-      setDeleting(false)
     } finally {
-      // setDeleting(false)
+      setDeleting(false)
     }
   };
 

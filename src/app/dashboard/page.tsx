@@ -4,6 +4,7 @@ import React, { Suspense } from 'react';
 import Link from 'next/link';
 import Button from '@/components/Button';
 import ShortItem from '@/components/ShortItem';
+import ShortsActions from '@/lib/ShortsActions';
 
 const Dashboard = async () => {
 
@@ -33,17 +34,9 @@ const Dashboard = async () => {
 export default Dashboard
 
 
-async function getUrls () {
-  // const response = await fetch(``process.env.NEXT_PUBLIC_API_BASE_URL'/api/dashboard',{ next: { revalidate: 3600 } })
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/shorts`);
-  const urls: Short[] = await response.json();
-  // if (!urls) notFound()
-  return urls
-}
-
 const UrlsList = async () => {
-  const urls: Short[] = await getUrls();
-
+  const urls: Short[] = await ShortsActions.getShorts();
+  console.log('urls', urls)
   return (
     <div className='space-y-8'>
       {

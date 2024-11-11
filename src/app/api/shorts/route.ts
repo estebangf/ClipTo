@@ -1,10 +1,25 @@
 import { NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
 import { connectToDatabase } from '@/lib/mongodb';
+import Short, { SHORTS_COLLECTION_NAME } from '@/entities/Short';
+import { auth } from '@/auth';
 
 // CREATE NEW
 export async function POST (req: Request) {
-  const { db, COLLECTION_NAME } = await connectToDatabase();
+  const session = await auth();
+
+
+  if (!session || !session.user || !session.user.id) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const userId = session.user.id; // ID único del usuario autenticado
+
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const db = await connectToDatabase();
   const { title, originalUrl } = await req.json();
 
   if (!originalUrl) {
@@ -15,12 +30,14 @@ export async function POST (req: Request) {
   const creationDate = new Date();
 
   // Guardar en la colección `urls`
-  await db.collection(COLLECTION_NAME).insertOne({
+  await db.collection<Short>(SHORTS_COLLECTION_NAME).insertOne({
+    userId,
     shortId,
     title,
     originalUrl,
     creationDate,
     clickCount: 0,
+    lastAccessed: null
   });
 
   return NextResponse.json({ shortId, title, originalUrl, creationDate });
@@ -28,11 +45,36 @@ export async function POST (req: Request) {
 
 
 // GET ALL
-export async function GET () {
-  const { db, COLLECTION_NAME } = await connectToDatabase();
+export const GET = auth(async function GET (req) {
+
+  console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\")
+  console.log("req", req)
+  console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\")
+  console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\")
+  console.log("req.auth", req.auth)
+  console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\")
+
+  const session = req.auth;
+
+  if (!session || !session.user || !session.user.id) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // const userId = session.user.id; // ID único del usuario autenticado
+  const userId = session.user.email; // Email único del usuario autenticado
+
+  console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\")
+  console.log("userId", userId)
+  console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\")
+
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const db = await connectToDatabase();
 
   // Obtener todas las URLs con sus estadísticas
-  const shorts = await db.collection(COLLECTION_NAME).find({})
+  const shorts = await db.collection<Short>(SHORTS_COLLECTION_NAME).find({ userId })
     .sort({ creationDate: -1 })
     .toArray();
 
@@ -46,6 +88,7 @@ export async function GET () {
         .toArray();
 
       return {
+        userId: url.userId,
         shortId: url.shortId,
         title: url.title,
         originalUrl: url.originalUrl,
@@ -57,4 +100,4 @@ export async function GET () {
   );
 
   return NextResponse.json(enhancedUrls);
-}
+})
