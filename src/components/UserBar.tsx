@@ -27,7 +27,7 @@ export default async function UserBar () {
   const user = session.user;
 
   return (
-    <div className="flex items-center p-4 bg-gray-100 shadow-md">
+    <div className="flex items-center p-4 bg-white shadow-md">
       {/* Foto del usuario */}
       {user?.image && (
         <img
