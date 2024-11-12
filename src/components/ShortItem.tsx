@@ -26,7 +26,9 @@ const ShortItem: React.FC<ShortItemProps> = ({
   const router = useRouter();
   const [deleting, setDeleting] = useState(false)
 
-  const shortUrl = `/api/${shortId}`
+  // const shortUrl = `/api/${shortId}`
+  const shortUrl = `/${shortId}`
+
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(`${NEXT_PUBLIC_API_BASE_URL}${shortUrl}`);

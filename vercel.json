@@ -1,16 +1,18 @@
 {
   "rewrites": [
     {
-      "source": "/dashboard",
-      "destination": "/dashboard"
-    },
-    {
       "source": "/:shortId",
       "destination": "/api/:shortId"
     },
     {
-      "source": "/dashboard",
-      "destination": "/dashboard"
+      "source": "/dashboard*",
+      "has": [
+        {
+          "type": "host",
+          "value": "dashboard.clip-to.vercel.app"
+        }
+      ],
+      "destination": "/dashboard*"
     }
   ]
 }
