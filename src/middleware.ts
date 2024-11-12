@@ -7,6 +7,13 @@ import { getToken } from "next-auth/jwt"
 // 1. Use middleware directly
 // export const { auth: middleware } = NextAuth(authConfig)
 
+
+if (!process.env.AUTH_SECRET) {
+  throw new Error('Invalid AUTH_SECRET')
+}
+
+const AUTH_SECRET = process.env.AUTH_SECRET;
+
 // 2. Wrapped middleware option
 const { auth } = NextAuth(authConfig)
 export default auth(async function middleware (req: NextRequest) {
@@ -32,8 +39,8 @@ export default auth(async function middleware (req: NextRequest) {
   console.log('\\\\\\\\\\\\\\   NextRequest   \\\\\\\\\\\\\\\\\\')
   const session = await getToken({
     req,
-    // secret: process.env.NEXTAUTH_SECRET,
-    secret: process.env.AUTH_SECRET,
+    secret: AUTH_SECRET,
+    cookieName: "next-auth.session-token",
   });
   // const session = req.cookies.get("next-auth.session-token")
   console.log(session)

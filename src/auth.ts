@@ -16,20 +16,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     databaseName: DB_NAME,
   }),
   callbacks: {
-    session: ({ session, token }) => {
-      console.log('\\\\\\\\\\\\\\   callbacks   \\\\\\\\\\\\\\\\\\')
-      console.log(session)
-      console.log(token)
-      console.log('\\\\\\\\\\\  END callbacks END   \\\\\\\\\\\\\\')
-
-      return ({
-        ...session,
-        user: {
-          ...session.user,
-          id: token.sub,
-        },
-      })
-    },
+    session: ({ session, token }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: token.sub,
+      },
+    }),
   },
   ...authConfig,
 })
