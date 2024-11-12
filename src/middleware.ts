@@ -49,16 +49,16 @@ export default auth(async function middleware (req: NextRequest) {
   console.log(_session)
   console.log('\\\\\\\\\\\  END NextRequest END   \\\\\\\\\\\\\\')
 
-  const isProtected = path.includes('/dashboard');
+  // const isProtected = path.includes('/dashboard');
 
-  if (!session && isProtected) {
-    return NextResponse.redirect(new URL('/login', req.url));
-  } else if (session && (
-    path === '/login'
-    // || path === '/register'
-  )) {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
-  }
+  // if (!session && isProtected) {
+  //   return NextResponse.redirect(new URL('/login', req.url));
+  // } else if (session && (
+  //   path === '/login'
+  //   // || path === '/register'
+  // )) {
+  //   return NextResponse.redirect(new URL('/dashboard', req.url));
+  // }
   return NextResponse.next();
 })
 
