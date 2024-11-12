@@ -42,11 +42,11 @@ export default auth(async function middleware (req: NextRequest) {
   const session = await getToken({
     req,
     secret: AUTH_SECRET,
-    cookieName: "authjs.session-token",
+    // cookieName: "authjs.session-token",
   });
   console.log(session)
-  const _session = req.cookies.get("authjs.session-token")
-  console.log(_session)
+  // const _session = req.cookies.get("authjs.session-token")
+  // console.log(_session)
   console.log('\\\\\\\\\\\  END NextRequest END   \\\\\\\\\\\\\\')
 
   // const isProtected = path.includes('/dashboard');
