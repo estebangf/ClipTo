@@ -5,14 +5,14 @@
       "destination": "/api/:shortId"
     },
     {
-      "source": "/dashboard*",
+      "source": "/dashboard",
       "has": [
         {
           "type": "host",
           "value": "dashboard.clip-to.vercel.app"
         }
       ],
-      "destination": "/dashboard*"
+      "destination": "/dashboard"
     }
   ]
 }
