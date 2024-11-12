@@ -31,9 +31,9 @@ async function getShorts (): Promise<Short[]> {
   const db = await connectToDatabase();
   const session = await auth()
 
-  console.log('\\\\\\\\\\\\\\   session   \\\\\\\\\\\\\\\\\\')
-  console.log(session)
-  console.log('\\\\\\\\\\\  END session END   \\\\\\\\\\\\\\')
+  // console.log('\\\\\\\\\\\\\\   session   \\\\\\\\\\\\\\\\\\')
+  // console.log(session)
+  // console.log('\\\\\\\\\\\  END session END   \\\\\\\\\\\\\\')
 
   if (!session || !session.user || !session.user.id) {
     throw new Error("Login please");

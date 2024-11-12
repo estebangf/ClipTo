@@ -43,22 +43,23 @@ export default auth(async function middleware (req: NextRequest) {
     req,
     secret: AUTH_SECRET,
     // cookieName: "authjs.session-token",
+    secureCookie: process.env.NODE_ENV === 'production'
   });
   console.log(session)
   // const _session = req.cookies.get("authjs.session-token")
   // console.log(_session)
   console.log('\\\\\\\\\\\  END NextRequest END   \\\\\\\\\\\\\\')
 
-  // const isProtected = path.includes('/dashboard');
+  const isProtected = path.includes('/dashboard');
 
-  // if (!session && isProtected) {
-  //   return NextResponse.redirect(new URL('/login', req.url));
-  // } else if (session && (
-  //   path === '/login'
-  //   // || path === '/register'
-  // )) {
-  //   return NextResponse.redirect(new URL('/dashboard', req.url));
-  // }
+  if (!session && isProtected) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  } else if (session && (
+    path === '/login'
+    // || path === '/register'
+  )) {
+    return NextResponse.redirect(new URL('/dashboard', req.url));
+  }
   return NextResponse.next();
 })
 

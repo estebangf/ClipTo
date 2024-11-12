@@ -89,9 +89,9 @@ const ShortItem: React.FC<ShortItemProps> = ({
         <div className="flex-row space-y-1 flex-1">
           <div className="font-bold text-xl">{title || "Sin Titulo"}</div>
           <div className="font-semibold">
-            <Link href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">
+            <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">
               {shortUrl}
-            </Link>
+            </a>
           </div>
           <div className="text-sm truncate max-w-xs">{originalUrl}</div>
           <div className="flex space-x-4 pt-8">
