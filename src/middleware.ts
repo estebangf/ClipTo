@@ -31,12 +31,12 @@ export default auth(async function middleware (req: NextRequest) {
 
   const session = await getToken({
     req,
-    secret: process.env.NEXTAUTH_SECRET,
+    // secret: process.env.NEXTAUTH_SECRET,
+    // secret: process.env.AUTH_SECRET,
   });
-
+  // const session = req.cookies.get("next-auth.session-token")
 
   console.log('\\\\\\\\\\\\\\   NextRequest   \\\\\\\\\\\\\\\\\\')
-  // const session = req.cookies.get("next-auth.session-token")
   console.log(session)
   console.log('\\\\\\\\\\\  END NextRequest END   \\\\\\\\\\\\\\')
   const isProtected = path.includes('/dashboard');
