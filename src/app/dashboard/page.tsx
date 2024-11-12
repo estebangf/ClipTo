@@ -36,7 +36,7 @@ export default Dashboard
 
 const UrlsList = async () => {
   const urls: Short[] = await getShorts();
-  console.log('urls', urls)
+
   return (
     <div className='space-y-8'>
       {
