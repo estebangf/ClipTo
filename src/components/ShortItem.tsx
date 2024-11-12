@@ -6,7 +6,7 @@ import Short from "@/entities/Short";
 import Button from "./Button";
 import { useToast } from "@/contexts/ToastProvider";
 import { useRouter } from "next/navigation";
-import ShortsActions from "@/lib/ShortsActions";
+import { deleteShort } from "@/lib/ShortsActions";
 
 type ShortItemProps = {
 
@@ -61,7 +61,7 @@ const ShortItem: React.FC<ShortItemProps> = ({
     setDeleting(true)
 
     try {
-      const response = await ShortsActions.deleteShort(shortId)
+      const response = await deleteShort(shortId)
 
       if (response) {
         router.refresh(); // Recarga la página y actualiza los datos

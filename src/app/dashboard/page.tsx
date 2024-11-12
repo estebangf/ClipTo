@@ -4,7 +4,7 @@ import React, { Suspense } from 'react';
 import Link from 'next/link';
 import Button from '@/components/Button';
 import ShortItem from '@/components/ShortItem';
-import ShortsActions from '@/lib/ShortsActions';
+import { getShorts } from '@/lib/ShortsActions';
 
 const Dashboard = async () => {
 
@@ -35,7 +35,7 @@ export default Dashboard
 
 
 const UrlsList = async () => {
-  const urls: Short[] = await ShortsActions.getShorts();
+  const urls: Short[] = await getShorts();
   console.log('urls', urls)
   return (
     <div className='space-y-8'>

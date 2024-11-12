@@ -3,7 +3,10 @@
 import Short, { SHORTS_COLLECTION_NAME } from "@/entities/Short";
 import { connectToDatabase } from "./mongodb";
 import { auth } from "@/auth";
-import { InsertOneResult, UpdateResult } from "mongodb";
+import {
+  // InsertOneResult,
+  UpdateResult
+} from "mongodb";
 import { nanoid } from 'nanoid';
 
 async function getShort (shortId: string): Promise<Short> {
@@ -18,22 +21,33 @@ async function getShort (shortId: string): Promise<Short> {
   if (!short)
     throw new Error("Short not exist");
 
-  return short;
+  return ({
+    ...short,
+    _id: short._id.toString()
+  });
 }
 
 async function getShorts (): Promise<Short[]> {
   const db = await connectToDatabase();
   const session = await auth()
 
-  if (!session || !session.user || !session.user.id)
+  // console.log('\\\\\\\\\\\\\\   session   \\\\\\\\\\\\\\\\\\')
+  // console.log(session)
+  // console.log('\\\\\\\\\\\  END session END   \\\\\\\\\\\\\\')
+
+  if (!session || !session.user || !session.user.id) {
     throw new Error("Login please");
+  }
 
-  const short = await db.collection<Short>(SHORTS_COLLECTION_NAME).find({ userId: session.user.id })
+  const shorts = await db.collection<Short>(SHORTS_COLLECTION_NAME).find({ userId: session.user.id })
 
-  if (!short)
+  if (!shorts)
     throw new Error("Short not exist");
 
-  return short.toArray();
+  return (await shorts.toArray()).map(e => ({
+    ...e,
+    _id: e._id.toString()
+  }));
 
 }
 
@@ -83,7 +97,8 @@ async function deleteShort (shortId: string) {
   return result;
 }
 
-async function createShort (short: { title: string, originalUrl: string }): Promise<InsertOneResult<Short>> {
+// async function createShort (short: { title: string, originalUrl: string }): Promise<InsertOneResult<Short>> {
+async function createShort (short: { title: string, originalUrl: string }): Promise<string> {
   const db = await connectToDatabase();
   const session = await auth()
 
@@ -109,15 +124,13 @@ async function createShort (short: { title: string, originalUrl: string }): Prom
   if (!shortInserted.insertedId)
     throw new Error("Short not created");
 
-  return shortInserted;
+  return shortInserted.insertedId.toString();
 }
 
-const ShortActions = {
+export {
   getShort,
   getShorts,
   updateShort,
   deleteShort,
   createShort
 }
-
-export default ShortActions

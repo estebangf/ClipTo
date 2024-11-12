@@ -1,6 +1,7 @@
 export const SHORTS_COLLECTION_NAME = "shorts"
 
 type Short = {
+  _id?: string;
   userId: string;
   shortId: string;
   title: string;

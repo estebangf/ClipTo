@@ -1,29 +1,28 @@
-// import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
-// import MongoDbClient from "./lib/mongodb";
+import authConfig from "./auth.config"
+import MongoDbClient from "./lib/mongodb"
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
 
-if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-  throw new Error('Please add your Google Secrets .env');
+
+if (!process.env.DB_NAME) {
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
 }
 
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+const DB_NAME = process.env.DB_NAME
 
-export const authOptions = {
-  // adapter: MongoDBAdapter(MongoDbClient),
-  providers: [
-    Google({
-      clientId: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
+export const { auth, handlers, signIn, signOut } = NextAuth({
+  session: { strategy: "jwt" },
+  adapter: MongoDBAdapter(MongoDbClient, {
+    databaseName: DB_NAME,
+  }),
+  callbacks: {
+    session: ({ session, token }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: token.sub,
+      },
     }),
-  ],
-  // callbacks: {
-  //   session: async ({ session }) => {
-  //     // Logged in users are authenticated, otherwise redirect to login page
-  //     return session
-  //   },
-  // },
-}
-
-export const { handlers, signIn, signOut, auth } = NextAuth(authOptions)
+  },
+  ...authConfig,
+})

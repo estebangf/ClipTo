@@ -1,7 +1,8 @@
 'use client'
 
 import Button from '@/components/Button';
-import ShortsActions from '@/lib/ShortsActions';
+import { useToast } from '@/contexts/ToastProvider';
+import { getShort, updateShort, createShort } from '@/lib/ShortsActions';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -10,6 +11,7 @@ type AddShortFormProps = object
 
 const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
   const router = useRouter();
+  const { showToast } = useToast();
   const { shortId }: { shortId: string } = useParams();
   const isEditMode = shortId != 'new';
   const [formData, setFormData] = useState({ title: '', originalUrl: '' });
@@ -22,7 +24,7 @@ const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
     if (isEditMode) {
       // Aquí puedes hacer una solicitud para obtener los datos del enlace
       const fetchLinkData = async () => {
-        const response = await ShortsActions.getShort(shortId)
+        const response = await getShort(shortId)
         // console.log("DATA: ", data)
         setFormData({ title: response.title, originalUrl: response.originalUrl });
         setLoading(false)
@@ -39,12 +41,18 @@ const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
 
     try {
       if (isEditMode) {
-        const response = await ShortsActions.updateShort({ shortId, ...formData })
+        // const response = await updateShort({ shortId, ...formData })
+        const response = await updateShort({ shortId, title: formData.title })
         console.log(response)
+        showToast('Short actualizado')
       } else {
-        const response = await ShortsActions.createShort({ ...formData })
-        if (response.insertedId)
-          router.replace(`${response.insertedId}`)
+        const response = await createShort({ ...formData })
+        // if (response.insertedId)
+        // router.replace(`${response.insertedId}`)
+        if (response) {
+          router.push('/dashboard')
+          showToast('Short creado')
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -82,7 +90,7 @@ const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
           />
           <label className='font-semibold'>Url</label>
           <input
-            disabled={saving || loading}
+            disabled={saving || loading || isEditMode}
             type="url"
             placeholder="https://example.com"
             className="rounded p-2 mb-6 border border-gray-300 focus:border-blue-400 focus:shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
