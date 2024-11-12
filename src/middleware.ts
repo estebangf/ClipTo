@@ -37,14 +37,16 @@ export default auth(async function middleware (req: NextRequest) {
   }
 
   console.log('\\\\\\\\\\\\\\   NextRequest   \\\\\\\\\\\\\\\\\\')
-  console.log(AUTH_SECRET)
-  console.log(req)
+  // console.log(AUTH_SECRET)
+  // console.log(req)
   const session = await getToken({
     req,
     secret: AUTH_SECRET,
-    // cookieName: "next-auth.session-token",
+    cookieName: "authjs.session-token",
   });
   console.log(session)
+  const _session = req.cookies.get("authjs.session-token")
+  console.log(_session)
   console.log('\\\\\\\\\\\  END NextRequest END   \\\\\\\\\\\\\\')
 
   const isProtected = path.includes('/dashboard');
