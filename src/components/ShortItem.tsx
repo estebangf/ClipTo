@@ -12,6 +12,8 @@ type ShortItemProps = {
 
 } & Short
 
+const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 const ShortItem: React.FC<ShortItemProps> = ({
   shortId,
   title,
@@ -90,7 +92,7 @@ const ShortItem: React.FC<ShortItemProps> = ({
           <div className="font-bold text-xl">{title || "Sin Titulo"}</div>
           <div className="font-semibold">
             <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">
-              {shortUrl}
+              {NEXT_PUBLIC_API_BASE_URL}{shortUrl}
             </a>
           </div>
           <div className="text-sm truncate max-w-xs">{originalUrl}</div>
