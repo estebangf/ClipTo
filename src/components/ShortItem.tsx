@@ -29,7 +29,7 @@ const ShortItem: React.FC<ShortItemProps> = ({
   const shortUrl = `/api/${shortId}`
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(shortUrl);
+      await navigator.clipboard.writeText(`${NEXT_PUBLIC_API_BASE_URL}${shortUrl}`);
       showToast('Copiado!');
     } catch (error) {
       console.error('Error al copiar el enlace:', error);
@@ -43,7 +43,7 @@ const ShortItem: React.FC<ShortItemProps> = ({
         await navigator.share({
           title: 'Compartir enlace corto',
           text: '¡Mira este enlace!',
-          url: shortUrl,
+          url: `${NEXT_PUBLIC_API_BASE_URL}${shortUrl}`,
         });
         showToast('Compartiendo...');
       } catch (error) {
