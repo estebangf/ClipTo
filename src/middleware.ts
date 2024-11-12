@@ -13,7 +13,6 @@ if (!process.env.AUTH_SECRET) {
 }
 
 const AUTH_SECRET = process.env.AUTH_SECRET;
-const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
 
 // 2. Wrapped middleware option
 const { auth } = NextAuth(authConfig)
@@ -38,21 +37,14 @@ export default auth(async function middleware (req: NextRequest) {
   }
 
   console.log('\\\\\\\\\\\\\\   NextRequest   \\\\\\\\\\\\\\\\\\')
+  console.log(AUTH_SECRET)
+  console.log(req)
   const session = await getToken({
     req,
     secret: AUTH_SECRET,
     // cookieName: "next-auth.session-token",
   });
-
-  const _session = await getToken({
-    req,
-    secret: NEXTAUTH_SECRET,
-    // cookieName: "next-auth.session-token",
-  });
-  const __session = req.cookies.get("next-auth.session-token")
   console.log(session)
-  console.log(_session)
-  console.log(__session)
   console.log('\\\\\\\\\\\  END NextRequest END   \\\\\\\\\\\\\\')
 
   const isProtected = path.includes('/dashboard');
