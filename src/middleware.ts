@@ -32,7 +32,7 @@ export default auth(async function middleware (req: NextRequest) {
   const session = await getToken({
     req,
     // secret: process.env.NEXTAUTH_SECRET,
-    // secret: process.env.AUTH_SECRET,
+    secret: process.env.AUTH_SECRET,
   });
   // const session = req.cookies.get("next-auth.session-token")
 
