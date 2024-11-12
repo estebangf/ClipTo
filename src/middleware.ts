@@ -10,10 +10,6 @@ import { getToken } from "next-auth/jwt"
 // 2. Wrapped middleware option
 const { auth } = NextAuth(authConfig)
 export default auth(async function middleware (req: NextRequest) {
-  console.log('\\\\\\\\\\\\\\   NextRequest   \\\\\\\\\\\\\\\\\\')
-  // const session = req.cookies.get("next-auth.session-token")
-  // console.log(session)
-  console.log('\\\\\\\\\\\  END NextRequest END   \\\\\\\\\\\\\\')
   // Your custom middleware logic goes here
   // if (!req.auth && req.nextUrl.pathname !== "/login" && req.nextUrl.pathname !== "/") {
   //   const newUrl = new URL('/login', req.nextUrl.origin)
@@ -38,6 +34,11 @@ export default auth(async function middleware (req: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
+
+  console.log('\\\\\\\\\\\\\\   NextRequest   \\\\\\\\\\\\\\\\\\')
+  // const session = req.cookies.get("next-auth.session-token")
+  console.log(session)
+  console.log('\\\\\\\\\\\  END NextRequest END   \\\\\\\\\\\\\\')
   const isProtected = path.includes('/dashboard');
 
   if (!session && isProtected) {
