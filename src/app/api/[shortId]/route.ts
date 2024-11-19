@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
-import Short, { SHORTS_COLLECTION_NAME } from '@/entities/Short';
+import Short, { SHORTS_COLLECTION_NAME, TEMP_SHORTS_COLLECTION_NAME, TempShort } from '@/entities/Short';
 
 export async function GET (request: Request, { params }: { params: Promise<{ shortId: string }> }) {
   const { shortId } = await params;
@@ -9,7 +9,19 @@ export async function GET (request: Request, { params }: { params: Promise<{ sho
   const urlEntry = await db.collection<Short>(SHORTS_COLLECTION_NAME).findOne({ shortId });
 
   if (!urlEntry) {
-    return NextResponse.json({ error: 'URL not found' }, { status: 404 });
+    const urlEntryTemp = await db.collection<TempShort>(TEMP_SHORTS_COLLECTION_NAME).findOne({ shortId });
+
+    if (!urlEntryTemp)
+      return NextResponse.json({ error: 'URL not found' }, { status: 404 });
+
+    if (urlEntryTemp.clickCount < 3)
+      await db.collection<Short>(SHORTS_COLLECTION_NAME).updateOne(
+        { shortId },
+        { $inc: { clickCount: 1 } }
+      );
+    else
+      await db.collection<Short>(SHORTS_COLLECTION_NAME).deleteOne({ shortId });
+    return NextResponse.redirect(urlEntryTemp.originalUrl);
   }
 
   // Incrementar el contador general en la colección `urls`

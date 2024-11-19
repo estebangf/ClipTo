@@ -11,7 +11,7 @@ const Button: React.FC<ButtonProps> = ({ variant = 'void', children, className, 
       className={`
         ${(variant !== 'void' && variant !== 'icon') && 'px-8 py-2 rounded-md shadow-sm font-semibold'}
         ${variant == 'icon' && "rounded-full p-2 hover:bg-gray-100"}
-        ${variant == 'contain' && "bg-blue-600 text-white hover:bg-blue-700"}
+        ${variant == 'contain' && "bg-green-600 text-white hover:bg-green-700"}
         ${variant == 'outline' && "border bg-white text-gray-500 hover:bg-gray-50"}
         ${variant == 'outline' && "border bg-white text-gray-500 hover:bg-gray-50"}
         ${className}

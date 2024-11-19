@@ -21,6 +21,7 @@ const ShortItem: React.FC<ShortItemProps> = ({
   clickCount,
   creationDate,
   lastAccessed,
+  // metadata
 }) => {
   const { showToast } = useToast();
   const router = useRouter();
@@ -82,6 +83,7 @@ const ShortItem: React.FC<ShortItemProps> = ({
     }
   };
 
+
   return (
     <div className="bg-white p-4 rounded-md"
       key={shortId}
@@ -93,7 +95,7 @@ const ShortItem: React.FC<ShortItemProps> = ({
         <div className="flex-row space-y-1 flex-1">
           <div className="font-bold text-xl">{title || "Sin Titulo"}</div>
           <div className="font-semibold">
-            <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">
+            <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-green-500">
               {NEXT_PUBLIC_API_BASE_URL}{shortUrl}
             </a>
           </div>
@@ -109,6 +111,15 @@ const ShortItem: React.FC<ShortItemProps> = ({
             </div>
             }
           </div>
+          {/* {metadata && (
+            <div className="flex">
+              <img src={metadata.favicon} />
+              <div>
+                <div className="font-bold text-xl">{metadata.title}</div>
+                <div className="font-bold text-sm">{metadata.description}</div>
+              </div>
+            </div>
+          )} */}
         </div>
         <div className="flex-1 flex items-start justify-end">
           <Button disabled={deleting} variant="icon" onClick={handleCopy}><ClipboardIcon width={20} /></Button>
@@ -116,7 +127,7 @@ const ShortItem: React.FC<ShortItemProps> = ({
           {deleting ? (
             <Button disabled={deleting} variant="icon"><PencilSquareIcon width={20} /></Button>
           ) : (
-            <Link href={`/dashboard/shorts/${shortId}`} rel="noopener noreferrer" className="text-blue-500">
+            <Link href={`/dashboard/shorts/${shortId}`} rel="noopener noreferrer" className="text-green-500">
               <Button disabled={deleting} variant="icon"><PencilSquareIcon width={20} /></Button>
             </Link>
           )}

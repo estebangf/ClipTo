@@ -13,7 +13,7 @@ function AnimatedIn ({ children, className, ...props }: ComponentProps<'div'>) {
           observer.unobserve(ref.current); // Deja de observar una vez que se hace visible
         }
       },
-      { threshold: 0.9 } // Puedes ajustar el threshold para que se active antes o después
+      { threshold: 0.3 } // Puedes ajustar el threshold para que se active antes o después
     );
 
     if (ref.current) {

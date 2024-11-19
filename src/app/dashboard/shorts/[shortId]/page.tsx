@@ -54,7 +54,7 @@ const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
           showToast('Short creado')
         }
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     } catch (err: any) {
       setError(err.message || 'Error inesperado.');
     } finally {
@@ -83,7 +83,7 @@ const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
             disabled={saving || loading}
             type="title"
             placeholder="Titulo del link"
-            className="rounded p-2 mb-6 border border-gray-300 focus:border-blue-400 focus:shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
+            className="rounded p-2 mb-6 border border-gray-300 focus:border-green-400 focus:shadow-md focus:shadow-green-200 focus:outline-none focus:ring-0"
             value={formData.title}
             onChange={(e) => setFormData(p => ({ ...p, title: e.target.value }))}
             required
@@ -93,7 +93,7 @@ const AddShortForm: React.FC<AddShortFormProps> = ({ }) => {
             disabled={saving || loading || isEditMode}
             type="url"
             placeholder="https://example.com"
-            className="rounded p-2 mb-6 border border-gray-300 focus:border-blue-400 focus:shadow-md focus:shadow-blue-200 focus:outline-none focus:ring-0"
+            className="rounded p-2 mb-6 border border-gray-300 focus:border-green-400 focus:shadow-md focus:shadow-green-200 focus:outline-none focus:ring-0"
             value={formData.originalUrl}
             onChange={(e) => setFormData(p => ({ ...p, originalUrl: e.target.value }))}
             required
